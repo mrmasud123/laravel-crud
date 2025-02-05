@@ -8,13 +8,46 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 </head>
 <body>
-    @if (session('success'))
-        <div class="alert alert-success" id="bx">
-            {{ session('success') }}
+    <div class="content">
+        <div class="header text-end mt-2 w-100">
+            <button class="btn btn-warning btn-sm"><a href="{{ route('logout') }}" class="nav-link">Logout</a></button>
         </div>
-    @endif
+        <div class="merchant-container w-100 d-flex align-items-center justify-content-center">
+            <div class="card" style="width: 100%; max-width: 400px;">
+                @if(session('success'))
+                    <div class="alert alert-success" id="bx">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                <div class="card-header text-center">
+                    <h3>Merchant List</h3>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Merchant Name</th>
+                                <th>Merchant E-mail</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($data as $dt)
+                            <tr>
+                                <td>{{ $dt->merchant_name }}</td>
+                                <td>{{ $dt->email }}</td>
+                            </tr>
+                            @endforeach
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <h1>Admin Dashboard</h1>
+    
+
+
 
     <script>
         var box=document.getElementById('bx');

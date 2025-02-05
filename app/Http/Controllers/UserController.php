@@ -1,8 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\Category;
 use Illuminate\Support\Facades\Log;
 use App\Models\merchantlog;
+use App\Models\Product;
+use App\Models\Shop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -12,7 +16,9 @@ class UserController extends Controller
     public function signup(){
         return view('signup');
     }
-
+    public function loginpage(){
+        return view('index');
+    }
     public function createUser(Request $request){
         $validatedData = $request->validate([
             'name' => 'required|string',
@@ -34,11 +40,10 @@ class UserController extends Controller
         return redirect()->back()->with('error', 'Failed to create account. Please try again.');
     }
     public function adminDashboard(){
-        return view('adminDashboard');
+        $data=merchantlog::where('role', 'merchant')->get();
+        return view('adminDashboard',compact('data'));
     }
-    public function merchantDashboard(){
-        return view('merchantDashboard');
-    }
+
     public function login(Request $request){ 
         $validatedData = $request->validate([
             'email' => 'required|email',
@@ -57,5 +62,22 @@ class UserController extends Controller
             return "Failed: Incorrect password";
         }
     }
+
+    public function logout(Request $request){
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        return redirect('/');
+    }
+
+    
+    public function merchantDashboard(){
+        $data=Shop::all();
+        return view('merchantDashboard',compact('data'));
+    }
+
+    public function loadShop($id){
+        return view('shop-single', compact('id'));
+    }
+
 }
 

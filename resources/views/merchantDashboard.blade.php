@@ -1,37 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-    <style>
-        .alert {
-            transition: opacity 1s ease;
-        }
-        .alert.fade-out {
-            opacity: 0;
-        }
-    </style>
-</head>
-<body>
-    @if (session('success'))
-    <div class="alert alert-success" id="flash-message">
-        {{ session('success') }}
-    </div>
+@extends('master-layout')
+
+@section('content')
+<div class="card" style="width: 100%; max-width: 600px;">
+    @if(session('success'))
+        <div class="alert alert-success" id="bx">
+            {{ session('success') }}
+        </div>
     @endif
+    <div class="card-header text-center">
+        <h3>Store List</h3>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Shop Name</th>
+                    <th>Shop Location</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($data as $dt)
+                    <tr>
+                        <td>{{ $dt->shop_name }}</td>
+                        <td>{{ $dt->shop_location }}</td>
+                        <td><button class="btn btn-sm btn-primary"><a href="{{ route('shop.details', $dt->id) }}" class="nav-link">Visit?</a></button></td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+@endsection
 
-    <h1>Merchant Dashboard</h1>
-
+@section('script')
     <script>
-        var flashMessage = document.getElementById('flash-message');
-        if (flashMessage) {
-            setTimeout(function() {
-                flashMessage.classList.add('fade-out'); 
-                flashMessage.style.display='none';
-            }, 3000); 
+        var box=document.getElementById('bx');
+        if(box){
+            setTimeout(() => {
+                box.style.display = "none";
+            }, 3000);
         }
+        console.log(box);
     </script>
-</body>
-</html>
+@endsection
