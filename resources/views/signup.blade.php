@@ -13,7 +13,8 @@
             <h3>Merchant Signup</h3>
         </div>
         <div class="card-body">
-            <form action="">
+            <form action="{{ route('merchant.create') }}" method="POST">
+                @csrf
                 <div class="form-group mb-2">
                     <input type="text" name="name" placeholder="Enter your name" class="form-control">
                 </div>
